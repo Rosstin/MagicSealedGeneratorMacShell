@@ -2,8 +2,12 @@
 
 #  Created by Rosstin Murphy on 6/19/16.
 
+SOI_NUM_COMMONS=101
+SOI_NUM_UNCOMMONS=80
+
 EMN_NUM_COMMONS=12
 EMN_NUM_UNCOMMONS=9
+
 ALREADYEXISTS=-1
 
 COMMON_PREFIX="c"
@@ -11,7 +15,12 @@ UNCOMMON_PREFIX="u"
 
 EMN_COMMON="/Users/rosstin/mtg/emn/1common/"
 EMN_UNCOMMON="/Users/rosstin/mtg/emn/2uncommon/"
+
+SOI_COMMON="/Users/rosstin/mtg/soi/1c/"
+SOI_UNCOMMON="/Users/rosstin/mtg/soi/2u/"
+
 JPG=".jpg"
+PNG=".png"
 
 ONE="1"
 TWO="2"
@@ -93,16 +102,17 @@ rm -rf $PACK4PATH && mkdir $PACK4PATH
 rm -rf $PACK5PATH && mkdir $PACK5PATH
 rm -rf $PACK6PATH && mkdir $PACK6PATH
 
+# SOI PACKS
 for packnumber in {1..6}
 do
 	# commons
 	for i in {0..6}
 	do
-		MYRAND=$(uniquerandomcommon EMN_NUM_COMMONS)
+		MYRAND=$(uniquerandomcommon SOI_NUM_COMMONS)
 
 		common[i]=$MYRAND
 		
-		MYSOURCE=$EMN_COMMON$COMMON_PREFIX$MYRAND$JPG
+		MYSOURCE=$SOI_COMMON$COMMON_PREFIX$MYRAND$PNG
 		MYDESTINATION=$PACK$packnumber$SLASH
 
 		cp $MYSOURCE $MYDESTINATION
@@ -111,11 +121,11 @@ do
 	#uncommons
 	for i in {0..2}
 	do
-		MYRAND=$(uniquerandomuncommon EMN_NUM_UNCOMMONS)
+		MYRAND=$(uniquerandomuncommon SOI_NUM_UNCOMMONS)
 
 		uncommon[i]=$MYRAND
 		
-		MYSOURCE=$EMN_UNCOMMON$UNCOMMON_PREFIX$MYRAND$JPG
+		MYSOURCE=$SOI_UNCOMMON$UNCOMMON_PREFIX$MYRAND$PNG
 		MYDESTINATION=$PACK$packnumber$SLASH
 
 		cp $MYSOURCE $MYDESTINATION
@@ -130,8 +140,8 @@ do
 		cp $FOIL $MYDESTINATION
 	else
 		#make a common
-		MYRANDOM=$(assignrandom EMN_NUM_COMMONS)
-		MYSOURCE=$EMN_COMMON$COMMON_PREFIX$MYRANDOM$JPG
+		MYRANDOM=$(assignrandom SOI_NUM_COMMONS)
+		MYSOURCE=$SOI_COMMON$COMMON_PREFIX$MYRANDOM$PNG
 		MYDESTINATION=$PACK$packnumber$SLASH
 		cp $MYSOURCE $MYDESTINATION
 	fi
@@ -144,7 +154,6 @@ do
 
 
 done
-
 
 
 
