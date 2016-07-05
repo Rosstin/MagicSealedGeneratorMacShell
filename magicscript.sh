@@ -6,6 +6,8 @@ SOI_NUM_COMMONS=101
 SOI_NUM_UNCOMMONS=80
 SOI_NUM_RARES=15
 SOI_NUM_MYTHICS=4
+SOI_NUM_DRARES=6
+SOI_NUM_DMYTHICS=3
 
 EMN_NUM_COMMONS=12
 EMN_NUM_UNCOMMONS=9
@@ -16,6 +18,8 @@ COMMON_PREFIX="c"
 UNCOMMON_PREFIX="u"
 RARE_PREFIX="r"
 MYTHIC_PREFIX="m"
+DRARE_PREFIX="dr"
+DMYTHIC_PREFIX="dm"
 
 EMN_COMMON="/Users/rosstin/mtg/emn/1common/"
 EMN_UNCOMMON="/Users/rosstin/mtg/emn/2uncommon/"
@@ -24,6 +28,8 @@ SOI_COMMON="/Users/rosstin/mtg/soi/1c/"
 SOI_UNCOMMON="/Users/rosstin/mtg/soi/2u/"
 SOI_RARE="/Users/rosstin/mtg/soi/3r/"
 SOI_MYTHIC="/Users/rosstin/mtg/soi/4m/"
+SOI_DRARE="/Users/rosstin/mtg/soi/13dr/"
+SOI_DMYTHIC="/Users/rosstin/mtg/soi/14dm/"
 
 JPG=".jpg"
 PNG=".png"
@@ -114,13 +120,17 @@ generatepack()
 	UNCOMMON_PATH=$2
 	RARE_PATH=$3
 	MYTHIC_PATH=$4
+	DRARE_PATH=$5
+	DMYTHIC_PATH=$6
 
-	COMMON_COUNT=$5
-	UNCOMMON_COUNT=$6
-	RARE_COUNT=$7
-	MYTHIC_COUNT=$8
+	COMMON_COUNT=$7
+	UNCOMMON_COUNT=$8
+	RARE_COUNT=$9
+	MYTHIC_COUNT=${10}
+	DRARE_COUNT=${11}
+	DMYTHIC_COUNT=${12}
 
-	PACKNUMBER=$9
+	PACKNUMBER=${13}
 
 	MYDESTINATION=$PACK$PACKNUMBER$SLASH
 
@@ -175,7 +185,28 @@ generatepack()
 		cp $MYSOURCE $MYDESTINATION
 	fi
 
-	#raredfc
+	#raredfc #wow this random number generator is bad
+	RAREDFCLOTTERY=$(assignrandom 1000)
+	echo $RAREDFCLOTTERY
+	if [ $RAREDFCLOTTERY -lt 16 ] ; then
+		#make a mythic dfc
+		#echo "make a mythic dfc"
+		MYRANDOM=$(assignrandom $DMYTHIC_COUNT)
+		MYSOURCE=$DMYTHIC_PATH$DMYTHIC_PREFIX$MYRANDOM$PNG
+		cp $MYSOURCE $MYDESTINATION
+	elif [ $RAREDFCLOTTERY -lt 125 ] ; then
+		#make a rare dfc
+		#echo "make a rare dfc"
+		MYRANDOM=$(assignrandom $DRARE_COUNT)
+		MYSOURCE=$DRARE_PATH$DRARE_PREFIX$MYRANDOM$PNG
+		cp $MYSOURCE $MYDESTINATION
+	else
+		# make a common
+		#echo "dont make a dfc of rare or mythic, just make a common"
+		MYRANDOM=$(assignrandom $COMMON_COUNT)
+		MYSOURCE=$COMMON_PATH$COMMON_PREFIX$MYRANDOM$PNG
+		cp $MYSOURCE $MYDESTINATION
+	fi
 
 	#dfc
 }
@@ -183,7 +214,7 @@ generatepack()
 # SOI PACKS
 for packnumber in {1..6}
 do
-	generatepack $SOI_COMMON $SOI_UNCOMMON $SOI_RARE $SOI_MYTHIC $SOI_NUM_COMMONS $SOI_NUM_UNCOMMONS $SOI_NUM_RARES $SOI_NUM_MYTHICS $packnumber
+	generatepack $SOI_COMMON $SOI_UNCOMMON $SOI_RARE $SOI_MYTHIC $SOI_DRARE $SOI_DMYTHIC $SOI_NUM_COMMONS $SOI_NUM_UNCOMMONS $SOI_NUM_RARES $SOI_NUM_MYTHICS $SOI_NUM_DRARES $SOI_NUM_DMYTHICS $packnumber
 done
 
 
