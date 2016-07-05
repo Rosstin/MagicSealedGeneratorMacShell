@@ -4,6 +4,8 @@
 
 SOI_NUM_COMMONS=101
 SOI_NUM_UNCOMMONS=80
+SOI_NUM_RARES=15
+SOI_NUM_MYTHICS=4
 
 EMN_NUM_COMMONS=12
 EMN_NUM_UNCOMMONS=9
@@ -12,12 +14,16 @@ ALREADYEXISTS=-1
 
 COMMON_PREFIX="c"
 UNCOMMON_PREFIX="u"
+RARE_PREFIX="r"
+MYTHIC_PREFIX="m"
 
 EMN_COMMON="/Users/rosstin/mtg/emn/1common/"
 EMN_UNCOMMON="/Users/rosstin/mtg/emn/2uncommon/"
 
 SOI_COMMON="/Users/rosstin/mtg/soi/1c/"
 SOI_UNCOMMON="/Users/rosstin/mtg/soi/2u/"
+SOI_RARE="/Users/rosstin/mtg/soi/3r/"
+SOI_MYTHIC="/Users/rosstin/mtg/soi/4m/"
 
 JPG=".jpg"
 PNG=".png"
@@ -106,11 +112,15 @@ generatepack()
 {
 	COMMON_PATH=$1
 	UNCOMMON_PATH=$2
+	RARE_PATH=$3
+	MYTHIC_PATH=$4
 
-	COMMON_COUNT=$3
-	UNCOMMON_COUNT=$4
+	COMMON_COUNT=$5
+	UNCOMMON_COUNT=$6
+	RARE_COUNT=$7
+	MYTHIC_COUNT=$8
 
-	PACKNUMBER=$5
+	PACKNUMBER=$9
 
 	MYDESTINATION=$PACK$PACKNUMBER$SLASH
 
@@ -152,9 +162,18 @@ generatepack()
 	fi
 
 	#rare
-	#MYTHICLOTTERY=$(assignrandom 8)
-	#if [ $MYTHICLOTTERY -q 1 ] ; then
-	#	#make a mythic
+	MYTHICLOTTERY=$(assignrandom 8)
+	if [ $MYTHICLOTTERY -eq 1 ] ; then
+		#make a mythic
+		MYRANDOM=$(assignrandom $MYTHIC_COUNT)
+		MYSOURCE=$MYTHIC_PATH$MYTHIC_PREFIX$MYRANDOM$PNG
+		cp $MYSOURCE $MYDESTINATION
+	else
+		#make a rare
+		MYRANDOM=$(assignrandom $RARE_COUNT)
+		MYSOURCE=$RARE_PATH$RARE_PREFIX$MYRANDOM$PNG
+		cp $MYSOURCE $MYDESTINATION
+	fi
 
 	#raredfc
 
@@ -164,7 +183,7 @@ generatepack()
 # SOI PACKS
 for packnumber in {1..6}
 do
-	generatepack $SOI_COMMON $SOI_UNCOMMON $SOI_NUM_COMMONS $SOI_NUM_UNCOMMONS $packnumber
+	generatepack $SOI_COMMON $SOI_UNCOMMON $SOI_RARE $SOI_MYTHIC $SOI_NUM_COMMONS $SOI_NUM_UNCOMMONS $SOI_NUM_RARES $SOI_NUM_MYTHICS $packnumber
 done
 
 
