@@ -11,8 +11,14 @@ SOI_NUM_DUNCOMMONS=20
 SOI_NUM_DRARES=6
 SOI_NUM_DMYTHICS=3
 
-EMN_NUM_COMMONS=12
-EMN_NUM_UNCOMMONS=9
+EMN_NUM_COMMONS=11
+EMN_NUM_UNCOMMONS=12
+EMN_NUM_RARES=30
+EMN_NUM_MYTHICS=8
+EMN_NUM_DCOMMONS=4
+EMN_NUM_DUNCOMMONS=6
+EMN_NUM_DRARES=5
+EMN_NUM_DMYTHICS=2
 
 ALREADYEXISTS=-1
 
@@ -25,9 +31,6 @@ DUNCOMMON_PREFIX="du"
 DRARE_PREFIX="dr"
 DMYTHIC_PREFIX="dm"
 
-EMN_COMMON="/Users/rosstin/mtg/emn/1common/"
-EMN_UNCOMMON="/Users/rosstin/mtg/emn/2uncommon/"
-
 SOI_COMMON="/Users/rosstin/mtg/soi/1c/"
 SOI_UNCOMMON="/Users/rosstin/mtg/soi/2u/"
 SOI_RARE="/Users/rosstin/mtg/soi/3r/"
@@ -36,6 +39,15 @@ SOI_DCOMMON="/Users/rosstin/mtg/soi/11dc/"
 SOI_DUNCOMMON="/Users/rosstin/mtg/soi/12du/"
 SOI_DRARE="/Users/rosstin/mtg/soi/13dr/"
 SOI_DMYTHIC="/Users/rosstin/mtg/soi/14dm/"
+
+EMN_COMMON="/Users/rosstin/mtg/emn/1c/"
+EMN_UNCOMMON="/Users/rosstin/mtg/emn/2u/"
+EMN_RARE="/Users/rosstin/mtg/emn/3r/"
+EMN_MYTHIC="/Users/rosstin/mtg/emn/4m/"
+EMN_DCOMMON="/Users/rosstin/mtg/emn/11dc/"
+EMN_DUNCOMMON="/Users/rosstin/mtg/emn/12du/"
+EMN_DRARE="/Users/rosstin/mtg/emn/13dr/"
+EMN_DMYTHIC="/Users/rosstin/mtg/emn/14dm/"
 
 JPG=".jpg"
 PNG=".png"
@@ -173,7 +185,51 @@ generatepack()
 	FOILLOTTERY=$(assignrandom 6)
 	if [ $FOILLOTTERY -eq 1 ] ; then
 		#make a foil
-		cp $FOIL $MYDESTINATION
+		echo "making a foil..."
+		echo $FOILLOTTERY
+		TOTALLOTTERY=$(assignrandom 1000)
+		if [ $TOTALLOTTERY -lt 400 ] ; then
+			# make a common
+			MYRANDOM=$(assignrandom $COMMON_COUNT)
+			MYSOURCE=$COMMON_PATH$COMMON_PREFIX$MYRANDOM$PNG
+			cp $MYSOURCE $MYDESTINATION
+		elif [ $TOTALLOTTERY -lt 600 ] ; then
+			# make an uncommon
+			MYRANDOM=$(assignrandom $UNCOMMON_COUNT)
+			MYSOURCE=$UNCOMMON_PATH$UNCOMMON_PREFIX$MYRANDOM$PNG
+			cp $MYSOURCE $MYDESTINATION
+		elif [ $TOTALLOTTERY -lt 800 ] ; then
+			# make a rare
+			MYRANDOM=$(assignrandom $RARE_COUNT)
+			MYSOURCE=$RARE_PATH$RARE_PREFIX$MYRANDOM$PNG
+			cp $MYSOURCE $MYDESTINATION
+		elif [ $TOTALLOTTERY -lt 850 ] ; then
+			# make a mythic
+			MYRANDOM=$(assignrandom $MYTHIC_COUNT)
+			MYSOURCE=$MYTHIC_PATH$MYTHIC_PREFIX$MYRANDOM$PNG
+			cp $MYSOURCE $MYDESTINATION
+		elif [ $TOTALLOTTERY -lt 930 ] ; then
+			# make a dfc common
+			MYRANDOM=$(assignrandom $DCOMMON_COUNT)
+			MYSOURCE=$DCOMMON_PATH$DCOMMON_PREFIX$MYRANDOM$PNG
+			cp $MYSOURCE $MYDESTINATION
+		elif [ $TOTALLOTTERY -lt 970 ] ; then
+			# make a dfc uncommon
+			MYRANDOM=$(assignrandom $DUNCOMMON_COUNT)
+			MYSOURCE=$DUNCOMMON_PATH$DUNCOMMON_PREFIX$MYRANDOM$PNG
+			cp $MYSOURCE $MYDESTINATION
+		elif [ $TOTALLOTTERY -lt 985 ] ; then
+			# make a dfc rare
+			MYRANDOM=$(assignrandom $DRARE_COUNT)
+			MYSOURCE=$DRARE_PATH$DRARE_PREFIX$MYRANDOM$PNG
+			cp $MYSOURCE $MYDESTINATION
+		else
+			# make a dfc mythic
+			echo "dfc mythic!"
+			MYRANDOM=$(assignrandom $DMYTHIC_COUNT)
+			MYSOURCE=$DMYTHIC_PATH$DMYTHIC_PREFIX$MYRANDOM$PNG
+			cp $MYSOURCE $MYDESTINATION
+		fi
 	else
 		#make a common
 		MYRANDOM=$(assignrandom $COMMON_COUNT)
@@ -232,8 +288,14 @@ generatepack()
 	fi	
 }
 
+# EMN PACKS
+for packnumber in {1..4}
+do
+	generatepack $EMN_COMMON $EMN_UNCOMMON $EMN_RARE $EMN_MYTHIC $EMN_DCOMMON $EMN_DUNCOMMON $EMN_DRARE $EMN_DMYTHIC $EMN_NUM_COMMONS $EMN_NUM_UNCOMMONS $EMN_NUM_RARES $EMN_NUM_MYTHICS $EMN_NUM_DCOMMONS $EMN_NUM_DUNCOMMONS $EMN_NUM_DRARES $EMN_NUM_DMYTHICS $packnumber
+done
+
 # SOI PACKS
-for packnumber in {1..6}
+for packnumber in {5..6}
 do
 	generatepack $SOI_COMMON $SOI_UNCOMMON $SOI_RARE $SOI_MYTHIC $SOI_DCOMMON $SOI_DUNCOMMON $SOI_DRARE $SOI_DMYTHIC $SOI_NUM_COMMONS $SOI_NUM_UNCOMMONS $SOI_NUM_RARES $SOI_NUM_MYTHICS $SOI_NUM_DCOMMONS $SOI_NUM_DUNCOMMONS $SOI_NUM_DRARES $SOI_NUM_DMYTHICS $packnumber
 done
