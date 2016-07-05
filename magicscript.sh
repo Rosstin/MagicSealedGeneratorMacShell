@@ -63,7 +63,7 @@ SLASH="/"
 
 FOIL="/Users/rosstin/mtg/emn/f.jpg"
 
-PACKPATH="/Users/rosstin/mtg/packs"
+PACKPATH="/Users/rosstin/mtg/packs/"
 PACK1PATH=$PACKPATH$ONE$SLASH
 PACK2PATH=$PACKPATH$TWO$SLASH
 PACK3PATH=$PACKPATH$THREE$SLASH
