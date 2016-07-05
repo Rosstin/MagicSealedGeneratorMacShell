@@ -112,6 +112,8 @@ generatepack()
 
 	PACKNUMBER=$5
 
+	MYDESTINATION=$PACK$PACKNUMBER$SLASH
+
 	# commons
 	for i in {0..6}
 	do
@@ -120,7 +122,6 @@ generatepack()
 		common[i]=$MYRAND
 		
 		MYSOURCE=$COMMON_PATH$COMMON_PREFIX$MYRAND$PNG
-		MYDESTINATION=$PACK$PACKNUMBER$SLASH
 
 		cp $MYSOURCE $MYDESTINATION
 	done
@@ -133,7 +134,6 @@ generatepack()
 		uncommon[i]=$MYRAND
 		
 		MYSOURCE=$UNCOMMON_PATH$UNCOMMON_PREFIX$MYRAND$PNG
-		MYDESTINATION=$PACK$PACKNUMBER$SLASH
 
 		cp $MYSOURCE $MYDESTINATION
 	done
@@ -143,17 +143,18 @@ generatepack()
 	FOILLOTTERY=$(assignrandom 6)
 	if [ $FOILLOTTERY -eq 1 ] ; then
 		#make a foil
-		MYDESTINATION=$PACK$PACKNUMBER$SLASH
 		cp $FOIL $MYDESTINATION
 	else
 		#make a common
 		MYRANDOM=$(assignrandom $COMMON_COUNT)
 		MYSOURCE=$COMMON_PATH$COMMON_PREFIX$MYRANDOM$PNG
-		MYDESTINATION=$PACK$PACKNUMBER$SLASH
 		cp $MYSOURCE $MYDESTINATION
 	fi
 
 	#rare
+	#MYTHICLOTTERY=$(assignrandom 8)
+	#if [ $MYTHICLOTTERY -q 1 ] ; then
+	#	#make a mythic
 
 	#raredfc
 
