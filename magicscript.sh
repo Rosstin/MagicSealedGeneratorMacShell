@@ -58,6 +58,7 @@ THREE="3"
 FOUR="4"
 FIVE="5"
 SIX="6"
+P="P"
 SLASH="/"
 
 FOIL="/Users/rosstin/mtg/emn/f.jpg"
@@ -69,6 +70,7 @@ PACK3PATH=$PACKPATH$THREE$SLASH
 PACK4PATH=$PACKPATH$FOUR$SLASH
 PACK5PATH=$PACKPATH$FIVE$SLASH
 PACK6PATH=$PACKPATH$SIX$SLASH
+PROMOPATH=$PACKPATH$P$SLASH
 
 uncommon[0]=-1
 uncommon[1]=-1
@@ -131,6 +133,7 @@ rm -rf $PACK3PATH && mkdir $PACK3PATH
 rm -rf $PACK4PATH && mkdir $PACK4PATH
 rm -rf $PACK5PATH && mkdir $PACK5PATH
 rm -rf $PACK6PATH && mkdir $PACK6PATH
+rm -rf $PROMOPATH && mkdir $PROMOPATH
 
 generatepack()
 {
@@ -186,8 +189,8 @@ generatepack()
 	if [ $FOILLOTTERY -eq 1 ] ; then
 		#make a foil
 		echo "making a foil..."
-		echo $FOILLOTTERY
 		TOTALLOTTERY=$(assignrandom 1000)
+		echo $TOTALLOTTERY
 		if [ $TOTALLOTTERY -lt 400 ] ; then
 			# make a common
 			MYRANDOM=$(assignrandom $COMMON_COUNT)
@@ -225,7 +228,7 @@ generatepack()
 			cp $MYSOURCE $MYDESTINATION
 		else
 			# make a dfc mythic
-			echo "dfc mythic!"
+			echo "foil dfc mythic!"
 			MYRANDOM=$(assignrandom $DMYTHIC_COUNT)
 			MYSOURCE=$DMYTHIC_PATH$DMYTHIC_PREFIX$MYRANDOM$PNG
 			cp $MYSOURCE $MYDESTINATION
@@ -299,6 +302,34 @@ for packnumber in {5..6}
 do
 	generatepack $SOI_COMMON $SOI_UNCOMMON $SOI_RARE $SOI_MYTHIC $SOI_DCOMMON $SOI_DUNCOMMON $SOI_DRARE $SOI_DMYTHIC $SOI_NUM_COMMONS $SOI_NUM_UNCOMMONS $SOI_NUM_RARES $SOI_NUM_MYTHICS $SOI_NUM_DCOMMONS $SOI_NUM_DUNCOMMONS $SOI_NUM_DRARES $SOI_NUM_DMYTHICS $packnumber
 done
+
+# PROMO CARD
+PROMOLOTTERY=$(assignrandom 1000)
+MYDESTINATION=$PACK$P$SLASH$P$PNG
+if [ $PROMOLOTTERY -lt 300 ] ; then
+	# make a rare
+	MYRANDOM=$(assignrandom $RARE_COUNT)
+	MYSOURCE=$RARE_PATH$RARE_PREFIX$MYRANDOM$PNG
+	cp $MYSOURCE $MYDESTINATION
+elif [ $PROMOLOTTERY -lt 500 ] ; then
+	# make a mythic
+	MYRANDOM=$(assignrandom $MYTHIC_COUNT)
+	MYSOURCE=$MYTHIC_PATH$MYTHIC_PREFIX$MYRANDOM$PNG
+	cp $MYSOURCE $MYDESTINATION
+elif [ $PROMOLOTTERY -lt 800 ] ; then
+	# make a dfc rare
+	MYRANDOM=$(assignrandom $DRARE_COUNT)
+	MYSOURCE=$DRARE_PATH$DRARE_PREFIX$MYRANDOM$PNG
+	cp $MYSOURCE $MYDESTINATION
+else
+	# make a dfc mythic
+	echo "dfc mythic promo!"
+	MYRANDOM=$(assignrandom $DMYTHIC_COUNT)
+	MYSOURCE=$DMYTHIC_PATH$DMYTHIC_PREFIX$MYRANDOM$PNG
+	cp $MYSOURCE $MYDESTINATION
+fi
+
+
 
 
 
